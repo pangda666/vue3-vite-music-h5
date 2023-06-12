@@ -10,20 +10,26 @@ import {
 // 自动引入icones库的图标
 import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
+// px自动转换为rem
+import postCssPxToRem from 'postcss-pxtorem';
+
+/* 
+  跨域失败原因总结（主要是出在baseUrl上）：https://blog.csdn.net/qq_52014705/article/details/130161061
+*/
 
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
     host: true, // 可以以IP访问
-    port: 5200, // 端口
+    port: 5200, // 服务启动端口
     open: true, // 自动打开游览器
     cors: true, // 允许跨域
     proxy: {
       '/api': {
         // 这里配置真实的后端环境地址
-        target: 'http://10.107.213.21:15030/fssc',
+        target: 'http://localhost:3000',
         changeOrigin: true,
-        rewrite: (path) => path.replace('/api/', '/'),
+        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
@@ -70,4 +76,14 @@ export default defineConfig({
     }),
     Icons({ autoInstall: true, compiler: 'vue3' }),
   ],
+  css: {
+    postcss: {
+      plugins: [
+        postCssPxToRem({
+          rootValue: 75, // 1rem，根据 设计稿宽度/10 进行设置
+          propList: ['*'], // 需要转换的属性，这里选择全部都进行转换
+        }),
+      ],
+    },
+  },
 });

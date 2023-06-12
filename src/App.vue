@@ -12,6 +12,7 @@ import HelloWorld from './components/HelloWorld.vue';
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
+  <van-button plain type="primary">朴素按钮</van-button>
 </template>
 
 <style scoped>

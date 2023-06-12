@@ -1,11 +1,17 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { commonSearch } from '../api';
 
 defineProps({
   msg: String,
 });
 
 const count = ref(0);
+onMounted(() => {
+  commonSearch({
+    keywords: '海阔天空',
+  });
+});
 </script>
 
 <template>
