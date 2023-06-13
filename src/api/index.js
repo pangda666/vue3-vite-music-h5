@@ -1,5 +1,6 @@
 import http from '../service';
 
+// 搜索
 export function commonSearch(data) {
   const url = '/cloudsearch';
   return http.post(url, data);

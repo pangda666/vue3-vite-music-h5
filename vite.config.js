@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import path from 'path';
 // 自动引入组件和各种依赖
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
@@ -29,7 +30,7 @@ export default defineConfig({
         // 这里配置真实的后端环境地址
         target: 'http://localhost:3000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (apiPath) => apiPath.replace(/^\/api/, ''),
       },
     },
   },
@@ -80,10 +81,18 @@ export default defineConfig({
     postcss: {
       plugins: [
         postCssPxToRem({
-          rootValue: 75, // 1rem，根据 设计稿宽度/10 进行设置
+          rootValue: 37.5, // 1rem，根据 设计稿宽度/10 进行设置
           propList: ['*'], // 需要转换的属性，这里选择全部都进行转换
         }),
       ],
+    },
+  },
+  // 配置路劲别名
+  resolve: {
+    alias: {
+      '@': path.resolve('./src'), // @代替src
+      store: path.resolve('./src/store'),
+      utils: path.resolve('./src/utils'),
     },
   },
 });
